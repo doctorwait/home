@@ -11,8 +11,8 @@ def sum_array(arr): # Функция описывает способ сумма�
         arr.pop(arr.index(max(arr)))
         arr.pop(arr.index(min(arr)))
         return sum(arr)
-      
-      
+
+
 def dna_to_rna(dna): # Конвертер ДНК в РНК, на вход принимается вложенный список
     if len(dna) == 0:
         return 0
@@ -24,3 +24,10 @@ def dna_to_rna(dna): # Конвертер ДНК в РНК, на вход при
                     dna = 'U' + dna[1:]
                 dna = dna[0:ind] + 'U' + dna[ind+1:]
         return dna
+
+
+def isends(string, ending): # Здесь мы смотрим, заканчивается ли первый строковый аргумент символами из второго (альтернатива .endwith())
+    lend = len(ending)
+    sl = string[:-lend]
+    res = sl + ending
+    return string == res or ending == ''    
