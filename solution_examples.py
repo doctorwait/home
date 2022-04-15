@@ -57,4 +57,19 @@ def word_ending(x:int, word:str):
         print(x, word)
     elif 2 <= num10 <= 4:
         print(x, word + 'а')
+        
+
+def multiply_table(a, b, c, d):
+    '''
+    Генератор таблицы умножения двух диапазонов чисел, лежащих
+    в пределах от a до b и от c до d. Границы диапазонов по умолчанию
+    равны 1.
+    '''
+    print('', *list(range(c, d + 1)), sep='\t')
+    for x in range(a, b + 1):
+        print(x, end='\t')
+        for y in range(c, d + 1):
+            print(x * y, end='\t')
+        print(sep='\t')
+        
 
