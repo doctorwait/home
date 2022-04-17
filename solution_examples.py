@@ -1,4 +1,5 @@
-# Задания к решению подбираются случайным образом, поэтому описанные решения раскрывают только часть моих знаний.
+# Задания к решению подбираются случайным образом, поэтому 
+# описанные решения раскрывают только часть моих знаний.
 
 
 def sum_array(arr): 
@@ -72,4 +73,44 @@ def multiply_table(a, b, c, d):
             print(x * y, end='\t')
         print(sep='\t')
         
+
+
+'''
+Код ниже построчно принимает на вход прямоугольную матрицу, для завершения ввода
+пишется слово 'end'. Выводит на печать матрицу той же формы, где каждый элемент
+является суммой всех его соседей с четырёх сторон, без учёта самого элемента.
+'''
+# Заполнение матрицы.
+first = [int(x) for x in input().split()]
+matrix, res = [], []
+while True:
+    x = input()
+    if x == 'end':
+        break
+    matrix.append([int(y) for y in x.split()])
+matrix.insert(0, first)
+lm = len(matrix)
+
+# Проверка на один элемент
+if len(first) == 1 and len(matrix) == 1:
+    print(first[0]*4)
+    
+else:
+# Копирование матрицы
+    for lst in matrix:
+        tmp = []
+        for item in lst:
+            tmp.append(item)
+        res.append(tmp)
+    
+# Заполнение новой матрицы 
+    for indlst, lst in enumerate(matrix, 0):
+        ll = len(lst)
+        for indnum in range(len(lst)):
+            res[indlst][indnum] = (matrix[indlst][(indnum - 1) % ll] + matrix[indlst][(indnum + 1) % ll]
+            + matrix[(indlst - 1) % lm][indnum] + matrix[(indlst + 1) % lm][indnum])
+for lst in res:
+    print(*lst, end='\n')
+
+
 
