@@ -113,4 +113,27 @@ for lst in res:
     print(*lst, end='\n')
 
 
+'''
+Код ниже открывает файл со строкой в формате число-номер (а3б7в13...) и печатает
+в отдельный файл каждую букву столько раз, какое после неё стоит число.
+'''
 
+txt = open('dataset_3363_2.txt', 'r')
+s1 = txt.read()
+txt.close()
+
+num = 0
+sym = str
+var = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+output = open('result.txt', 'w')
+
+
+for ind in range(len(s1)):
+    if s1[ind] in var and s1[ind + 1] in var:
+        num = int(s1[ind]) * 10 + int(s1[ind + 1])
+        sym = s1[ind - 1]
+        print(sym * num, file=output, end='')
+    elif s1[ind] in var and s1[ind + 1] not in var and s1[ind - 1] not in var:
+        num = int(s1[ind])
+        sym = s1[ind - 1]
+        print(sym * num, file=output, end='')
