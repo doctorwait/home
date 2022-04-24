@@ -137,3 +137,43 @@ for ind in range(len(s1)):
         num = int(s1[ind])
         sym = s1[ind - 1]
         print(sym * num, file=output, end='')
+        
+        
+        
+        
+        
+        
+
+'''
+Код ниже считывает в одну строку файл, находит наиболее часто встречающуюся 
+последовательность символов (без учёта регистра) и печатает в новый файл
+эту последовательность и число - сколько раз она встретилась в исходнике.
+'''
+
+# Блок считывания и подготовки к записи (файл создаётся автоматически)
+txt = open('dataset_3363_3.txt', 'r')
+inp = txt.read()
+output = open('result.txt', 'w')
+
+# Контейнер - это кортеж отдельных последовательностей; делим по пробелам и
+# сразу же приводим к нижнему регистру
+container = tuple(inp.lower().split())
+dic_res, temp_key = {}, 0
+
+# Уникальными должны быть наборы последовательностей символов, поэтому мы
+# записываем их в ключи словаря, а значения - число повторения для каждого
+# ключа.
+for ind in range(len(container)):
+    temp_key = container.count(container[ind])
+    if container[ind] not in dic_res.keys():
+        dic_res[container[ind]] = temp_key
+
+# Находим все послед-ти, которые встречаются чаще остальных. Таких может быть
+# несколько, поэтому записываем все в промежуточный словарь, из которого 
+# по тому же принципу вытаскиваем послед-ть с наименьшим значением.
+max_value = max(dic_res.values())
+dic_max = {key: value for key, value in dic_res.items() if value == max_value}
+min_key = min(dic_max.keys())
+dic_end = {key: value for key, value in dic_max.items() if key == min_key}
+for key, value in dic_end.items():
+    print(key, value, file=output)
