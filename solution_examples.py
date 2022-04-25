@@ -177,3 +177,58 @@ min_key = min(dic_max.keys())
 dic_end = {key: value for key, value in dic_max.items() if key == min_key}
 for key, value in dic_end.items():
     print(key, value, file=output)
+
+
+'''
+Следующий код - пример работы со списком, в который вложен список списков.
+На вход подаётся количество матчей (отдельно) и результаты каждого матча
+в формате "Спартак;9;Зенит;10". Далее формируется статистика.
+'''
+
+games = int(input())
+games_res = games # Доп. хранилище количества матчей
+lst = [] # Общий лист всех матчей, где каждый - в списке
+teams, result = [], []
+
+# Заполняем общий лист всеми данными
+while games > 0:
+    tmp = []
+    s = str(input()).split(';')
+    lst.append([[s[0], int(s[1])], [s[2], int(s[3])]])
+    if s[0] not in teams:
+        teams.append(s[0])
+    if s[2] not in teams:
+        teams.append(s[2])
+    games -= 1
+    
+# Делаем список с итоговой статистикой. Индексы команды в листе команд и её результатов - совпадают.
+for ind in range(len(teams)):
+    result.append([teams[ind], 0, 0, 0, 0, 0]) # Всего_игр Побед Ничьих Поражений Всего_очков
+
+for ind_team in range(len(teams)): # Для каждой команды
+    for match in range(len(lst)): # Для каждого матча (список списков)
+        score_left, score_right = lst[match][0][1], lst[match][1][1]
+        team_left, team_right = lst[match][0][0], lst[match][1][0]
+        is_team_left, is_team_right = team_left == teams[ind_team], team_right == teams[ind_team]
+        if is_team_left or is_team_right: # "Всего игр"
+            result[ind_team][1] += 1
+        if score_left > score_right and is_team_left: # Зачёт победы левой команде
+            result[ind_team][2] += 1
+            result[ind_team][5] += 3
+        elif score_left == score_right and is_team_left: # Зачёт ничьей левой команде
+            result[ind_team][3] += 1
+            result[ind_team][5] += 1
+        elif score_left < score_right and is_team_left: # Зачёт поражения левой команде
+            result[ind_team][4] += 1
+        elif score_right > score_left and is_team_right: # Зачёт победы правой команде
+            result[ind_team][2] += 1
+            result[ind_team][5] += 3
+        elif score_right == score_left and is_team_right: # Зачёт ничьей правой команде
+            result[ind_team][3] += 1
+            result[ind_team][5] += 1
+        elif score_right < score_left and is_team_right: # Зачёт поражения правой команде
+            result[ind_team][4] += 1
+    
+for match in result:
+    print(match[0] + ':', match[1], sep='', end=' ')
+    print(*match[2:6], end='\n')
