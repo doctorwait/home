@@ -179,6 +179,8 @@ for key, value in dic_end.items():
     print(key, value, file=output)
 
 
+
+
 '''
 Следующий код - пример работы со списком, в который вложен список списков.
 На вход подаётся количество матчей (отдельно) и результаты каждого матча
@@ -232,3 +234,26 @@ for ind_team in range(len(teams)): # Для каждой команды
 for match in result:
     print(match[0] + ':', match[1], sep='', end=' ')
     print(*match[2:6], end='\n')
+    
+    
+    
+'''
+Функция принимает на вход произвольную строку и делает все буквы в словах длиннее 2-х 
+символов прописными, а первую - заглавной.
+'''
+def drop_cap(tar):
+    mouse = []
+    if len(tar) == 0:
+        return ""
+    elif len(tar) <= 2:
+        return tar.lower()
+    mouse.append(tar[0])
+    for i in range(1, len(tar)):
+        if tar[i] != ' 'and mouse[-1][-1] != ' ' or tar[i] == ' 'and mouse[-1][-1] == ' ':
+            mouse[-1] = mouse[-1] + tar[i]
+        else:
+            mouse.append(tar[i])
+    for ind in range(len(mouse)):
+        if len(mouse[ind]) > 2:
+            mouse[ind] = mouse[ind].lower().title()
+    return ''.join(mouse)
