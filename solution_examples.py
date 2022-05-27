@@ -257,3 +257,80 @@ def drop_cap(tar):
         if len(mouse[ind]) > 2:
             mouse[ind] = mouse[ind].lower().title()
     return ''.join(mouse)
+ 
+ 
+ 
+ '''
+ Задача с курса по Питону. Код рисует закрученную вправо спираль в виде квадрата со стороной,
+ равной отправленному пользователем числу n. Спираль содержит в себе числа от 1 до n*n. В решении
+ я решил избежать рекурсии и проверок if/else, а также, при возможности, вставлял блоки списков
+ целиком, без поэлементного переноса.
+ '''
+ n = int(input())
+
+mat = [[0]*n for i in range(n)]
+lst = list(range(1, n*n + 1))
+lst = lst[::-1]
+
+# Заполняем первую строчку
+for i in range(n):
+    mat[0][i] = lst.pop()
+    
+counter = 1
+
+while counter < n:
+    for i in range(counter, n):  # Сверху вниз
+        mat[i][n-1] = lst.pop()
+        
+    mat[n-1][counter-1 : n-1] = lst[-(n-counter) : ]  # Справа налево
+    del lst[-(n-counter) : ]
+    n -= 1
+    
+    for i in range(n-1, counter-1, -1):  # Идём наверх
+        mat[i][counter-1] = lst.pop()
+    
+    mat[counter][counter:n] = lst[-(n-counter):][::-1]  # Идём направо
+    del lst[-(n-counter):]
+    counter += 1
+
+for i in mat:
+    print(*i)
+    
+    
+    
+'''
+Функция ниже берёт на вход список, и возвращает новый список, где каждый элемент
+является суммой всех элементов исходного списка, пример:
+[0, 1, 2, 3] - исходник, и он "разбивается" на такие составляющие:
+        [1, 2, 3]
+        [2, 3]
+        [3]
+        []
+Суммирование происходит по горизонтали, результат в этом примере: [6, 6, 5, 3, 0]
+Note: представлено два варианта решения
+'''
+
+# Однопроходное решение с экономией машинных ресурсов (в отличие от рекурсивного):
+
+def parts_sums(ls):
+    res = []
+    if ls == []:
+        return [0]
+    s = sum(ls)
+    res.append(s)
+    for item in range(len(ls)):
+        res.append(s - ls[item])
+        s -= ls[item]
+    return res
+    
+    
+# Решение через рекурсию:
+ 
+def parts_sums(ls, res=[]):
+    if len(ls) == 0:
+        res.append(0)
+        return res
+    res.append(sum(ls))
+    parts_sums(ls[1:], res)
+    return res
+
