@@ -334,3 +334,23 @@ def parts_sums(ls, res=[]):
     parts_sums(ls[1:], res)
     return res
 
+
+'''
+А здесь одна из задач курса по Питону на Степике. Сама суть, конечно, спорная:
+авторы заставляют парсить URL при помощи регулярных выражений. Ну, как пример
+владения ими, и для acchievement, оставлю это здесь.
+'''
+import re
+import requests
+
+# Формируем контент сайта в виде списка строк
+content = requests.get(input()).text.strip()
+match = re.findall(r"<a(?:.*)?href=[^ ](?P<q>[\'\"])??(?:.*?:\/\/)?(?P<find>\w[\w\d.-]*)", content)
+
+raw_res = set()
+[raw_res.add(i[1]) for i in match]
+
+# Печать из такого выражения, говорят, не очень хороший тон ;) Главное, что
+# я это знаю. А применяю для того, чтобы закрепить структуру.
+[print(i) for i in sorted(list(raw_res))]
+
