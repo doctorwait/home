@@ -23,7 +23,7 @@ class MagicSquare:
             self.numbers_dict_defaulter[i] = False
 
     @staticmethod
-    def sums_of_lines(matrix: list, size: int, results=None, first_lines_for_success=False):
+    def sums_of_lines(matrix: list, size: int, results=None):
         """
         Возвращает список из сумм: 1-й и 2-й элементы = суммы по диагоналям, далее N элементов суммы горизонталей, и N
         элементов - по вертикали, где N = стороне квадрата.
@@ -73,6 +73,40 @@ class MagicSquare:
                 return False
         return True
 
+    def edges_condition(self, matrix, numbers_dict, target_number, free_numbers=None):
+        """
+        После выстраивания диагоналей, проверяет вакантные места и свободные цифры на наличие невозможных комбинаций.
+        Возвращает True, если не находит подвохов.
+        matrix - Матрица после генерации диагоналей.
+        numbers_dict - Словарь с данными о свободных цифрах.
+        target_number - Сумма одной из диагоналей - целевое число, должно получаться при суммации на любом направлении.
+        """
+        if free_numbers is None:
+            free_numbers = []
+        [free_numbers.append(i) for i in self.numbers_dict if not self.numbers_dict[i]]
+        a, b, c, d = matrix[0][0], matrix[0][-1], matrix[-1][0], matrix[-1][-1]
+        up, left, right, down = a + b, a + c, b + d, c + d
+        # Ищем минимум и максимум
+        if up < left:
+            if right < down:
+                minimum = up if up < right else right
+                maximum = down if down > left else left
+            else:
+                minimum = up if up < down else down
+                maximum = right if right > left else left
+        else:
+            if right < down:
+                minimum = left if up < right else right
+                maximum = down if down > up else up
+            else:
+                minimum = left if up < down else down
+                maximum = up if up > right else right
+        print(free_numbers, minimum, maximum, target_number)
+        # Смотрим крайние случаи
+        if maximum + free_numbers[0] >= target_number or minimum + free_numbers[-1] < target_number:
+            return False
+        return True
+
     def diagonals_coords(self):
         """
         Возвращает множество из кортежей с координатами всех точек на двух диагоналях квадрата. Формат (х, у).
@@ -110,13 +144,22 @@ class MagicSquare:
             # Для старого числа нужно обнулить его "вакантность" - возможность переиспользования
             if self.matrix[x][y] != 0:
                 self.numbers_dict[self.matrix[x][y]] = False
+            # Добавляем в матрицу новое число и маркируем его как занятое
             self.matrix[x][y] = d_number
             self.numbers_dict[d_number] = True
+            # Если на диагоналях больше нет нулей
             if self.zero_condition():
-                if not self.break_condition(switcher_for_diagonals=True):
+                # Если суммы не совпадают или в центре 3-х ячеистой матрицы стоит не число 5 - всё заново
+                if not self.break_condition(switcher_for_diagonals=True) or (self.size == 3 and self.matrix[1][1] != 5):
                     self.get_default_sources()
                     continue
                 elif self.break_condition(switcher_for_diagonals=True):
+                    # Целевое число можем посчитать только при условии, что оно одинаковое у обеих диагоналей; считаем:
+                    target_number = sum(self.matrix[i][i] for i in range(self.size))
+                    # Проверка крайних случаев:
+                    if not self.edges_condition(self.matrix, self.numbers_dict, target_number):
+                        self.get_default_sources()
+                        continue
                     print('Считает диагонали равными:')
                     return
 
@@ -144,4 +187,4 @@ res = MagicSquare(5)
 res.fill_diagonals()
 res.show()
 
-# TODO Возможно, верный алгоритм - при создании диагоналей сразу же заполнять 4 крайние границы квадрата
+# 2 4 6 8
