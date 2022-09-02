@@ -417,3 +417,22 @@ class LinkedList:
             result.append(obj.get_data())
             obj = obj.get_next()
         return result
+        
+
+'''
+Возвращаемся на Codewars ;) Здесь у нас декоратор, который сохраняет результаты
+работы функции, чтобы не пересчитывать по много раз.
+'''
+
+from functools import wraps
+
+
+def memoize(func, results=None):
+    results = {} if results is None else results
+    @wraps(func)
+    def wrapper(value):
+        nonlocal results
+        if value not in results:
+            results[value] = func(value)
+        return results[value]
+    return wrapper

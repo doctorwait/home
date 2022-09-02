@@ -103,19 +103,15 @@ class MagicSquare:
                 maximum = up if up > right else right
         print(free_numbers, minimum, maximum, target_number)
         # Смотрим крайние случаи
-        if maximum + free_numbers[0] >= target_number or minimum + free_numbers[-1] < target_number:
+        if maximum + free_numbers[0] > target_number or minimum + free_numbers[-1] < target_number:
             return False
-
-        '''
-        Этот код - попытка принудительно сгенерировать необходимый квадрат со стороной 3. Т.к. это невозможно, 
-        скорее всего, условия генерации координат в этой функции ограниченны. Работать над дальнейшими постановками
-        крайних случаев можно только после исправления этого.
+        switch = True
         for side in (up, left, right, down):
-            if minimum < side < maximum and (side + free_numbers[1] != target_number or
-                                             side + free_numbers[2] != target_number):
-                return False
-        '''
-        return True
+            for num in free_numbers:
+                if side + num == target_number:
+                    switch = True
+                    continue
+        return switch
 
     def diagonals_coords(self):
         """
@@ -196,5 +192,10 @@ class MagicSquare:
 res = MagicSquare(3)
 res.fill_diagonals()
 res.show()
-
-# 2 4 6 8
+'''
+1
+7 3
+9
+Сторона 3 - 4 свободные клетки, 24 варианта периферии
+Сторона 3 - 8 свободные клетки, 24 варианта периферии
+'''
