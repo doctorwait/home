@@ -113,7 +113,7 @@ class CoffeeMachine:
         self.milk = milk
         self.sugar = sugar
         self.water = water
-        self.cups = cups  # В одном стаканчике помещается 200 мл напитка
+        self.cups = cups  # В одном стаканчике помещается 250 мл напитка
         self.americano = Americano(2, 0, 0, 200)
         self.latte = Latte(2, 20, 4, 250)
         self.capuccino = Capuccino(2, 10, 2, 200)
