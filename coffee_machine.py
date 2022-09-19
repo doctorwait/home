@@ -263,6 +263,8 @@ class CoffeeMachine:
             password = input(f'Осталось попыток: {counter}.\nВведите "{self.__password}": ')
             counter -= 1
         if password != self.__password:
+            print('Система заблокирована на 30 секунд. Попробуйте позже.')
+            sleep(0.5)
             return
         print('Вход подтверждён.')
         while True:
@@ -284,5 +286,6 @@ class CoffeeMachine:
 
 
 machine = CoffeeMachine()
-machine.initialize_user_interface()
+#machine.initialize_user_interface()
+machine.initialize_specialist_interface()
 machine.initialize_specialist_interface()
