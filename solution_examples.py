@@ -436,3 +436,79 @@ def memoize(func, results=None):
             results[value] = func(value)
         return results[value]
     return wrapper
+    
+
+'''
+Пример работы с requests, BeautifulSoup, Pandas, для опытов взял страничку Вики
+'''
+import requests
+import pandas
+from bs4 import BeautifulSoup
+
+
+address = 'https://ru.wikipedia.org/wiki/250_%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85_%D1%84%D0%B8%D0%BB%D1%8C%D0%BC%' \
+          'D0%BE%D0%B2_%D0%BF%D0%BE_%D0%B2%D0%B5%D1%80%D1%81%D0%B8%D0%B8_IMDb'
+
+wiki = requests.get(address)  # Получаем объект
+wiki_text = wiki.text  # Вытаскиваем текст
+wiki_soup = BeautifulSoup(wiki_text, 'html.parser')  # Парсим
+wiki_raw = wiki_soup.body.table.text.split('\n')[7:]  # Вытаскиваем таблицу в виде строки
+wiki_splitted = []
+for i in range(len(wiki_raw)):
+    if wiki_raw[i] != '':
+        wiki_splitted.append(wiki_raw[i])  # Формируем список из этой строки без лишних символов
+wiki_lines = [wiki_splitted[i + 1: i + 5] for i in range(0, 1250, 5)]  # Формируем список списков построчно
+
+wiki_formatted_data = pandas.DataFrame(wiki_lines)  # Делаем датафрейм
+wiki_formatted_data.columns = ['Название фильма', 'Год', 'Режиссёр', 'Жанр по версии IMDb']  # Форматируем датафрейм
+wiki_formatted_data.index = pandas.RangeIndex(start=1, stop=251, step=1)
+
+# Десять лучших фильмов
+print(wiki_formatted_data.loc[1:11])
+
+# Выбор по жанрам
+genres_list = [i for i in wiki_formatted_data['Жанр по версии IMDb'].unique()]
+genres_set = set()
+for row in genres_list:
+    [genres_set.add(i.strip().lower()) for i in row.split(',')]
+print('\tДоступные жанры:')
+for i in genres_set:
+    print(i.capitalize())
+while True:
+    choice = input('\n\tВыберите жанр: ').lower()
+    if choice in genres_set:
+        print('\tВот доступные фильмы: ')
+        for row in wiki_formatted_data.iloc:
+            if choice in row['Жанр по версии IMDb'].lower():
+                print(row)
+        final = input('\tПродолжим? Д/Н --> ')
+        if final == 'Д':
+            continue
+        else:
+            break
+    else:
+        final2 = input('Выбранного жанра в списке нет. Продолжим? Д/Н --> ')
+        if final2 == 'Д':
+            continue
+        else:
+            break
+
+# Выборка по времени - насколько я понял, речь о годе выхода фильма
+years = input('Введите год фильма (или диапазон лет, две цифры через пробел, прим. "1990 2010"  ')
+years_form = years.strip().split()
+if len(years_form) == 2:
+    y_start, y_stop = [int(i) for i in years_form]
+    for row in wiki_formatted_data.iloc:
+        if y_start <= int(row['Год']) <= y_stop:
+            print(row)
+else:
+    years_form = int(years_form[0])
+    for row in wiki_formatted_data.iloc:
+        if int(row['Год']) == years_form:
+            print(row)
+
+# Количество фильмов по режиссёрам
+print('Количество режиссёров: ', len(set([i for i in wiki_formatted_data['Режиссёр'].unique()])))
+
+# Количество фильмов по жанрам (у нас такие данные уже есть, но т.к. жанры в основном составные, то выборка не точна)
+print('Количество уникальных жанров: ', len(genres_set))
