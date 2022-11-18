@@ -4,7 +4,7 @@ from random import choice, randint
 
 class IngredientDescriptor:
     """
-    Управляет ингредиентами в классе кофе-машины.
+    Manages the ingredients in the coffee machine class.
     """
     def __set_name__(self, owner, name):
         self.name = '_' + name
@@ -18,17 +18,17 @@ class IngredientDescriptor:
 
 class Drink:
     """
-        На каждый напиток - 200 мл воды (кроме эспрессо и МЛ, там по 25 мл воды). Рецепты:
-        Американо: 2 гр кофе.
-        Латте: 2 гр кофе, 20 гр молока и 4 гр сахара.
-        Капуччино: 2 гр кофе, 10 гр молока и 2 гр сахара.
-        Эспрессо: 2 гр кофе и 25 мл воды.
-        Машинное обучение: заряд перед вебинаром, 4 гр кофе, 4 гр сахара, 25 мл воды.
+        For each drink - 200 ml of water (except for espresso and ML, there are 25 ml of water each). Recipes:
+        Americano: 2 grams of coffee.
+        Latte: 2 grams of coffee, 20 grams of milk and 4 grams of sugar.
+        Cappuccino: 2 grams of coffee, 10 grams of milk and 2 grams of sugar.
+        Espresso: 2 grams of coffee and 25 ml of water.
+        Machine learning: charge before the webinar, 4 grams of coffee, 4 grams of sugar, 25 ml of water.
     """
 
     def __init__(self, coffee, milk, sugar, water):
         """
-        При создании класса, указываем, сколько ингредиентов требуется на одну порцию.
+        When creating a class, we indicate how many ingredients are required per serving.
         """
         self.coffee = coffee
         self.milk = milk
@@ -49,7 +49,7 @@ class Drink:
 
     def what_needs_to_make_drink(self, num_of_drinks=1):
         """
-        Кофе-молоко-сахар-вода
+        Coffee-milk-sugar-water
         """
         return list(map(lambda x: x * num_of_drinks, (self.coffee, self.milk, self.sugar, self.water)))
 
@@ -64,38 +64,38 @@ class Drink:
 class Americano(Drink):
     def __init__(self, coffee, milk, sugar, water):
         super().__init__(coffee, milk, sugar, water)
-        self.__name__ = 'Американо'
-        self.description = 'Классика вкуса.\nЧёрный кофе без сахара и молока.\nРецепт: 2 ч.л. кофе. Да, это всё.'
+        self.__name__ = 'Americano'
+        self.description = "Classic taste.\nBlack coffee without sugar and milk.\nRecipe: 2 tsp. coffee. Yes, that's all."
 
 
 class Latte(Drink):
     def __init__(self, coffee, milk, sugar, water):
         super().__init__(coffee, milk, sugar, water)
-        self.__name__ = 'Латте'
-        self.description = 'Очень мягкий и молочный кофе -\nтем, кто любит послаще.\n' \
-                           'Рецепт: 2 ч.л. кофе, 20 мл молока, 4 ч.л. сахара'
+        self.__name__ = 'Latte'
+        self.description = 'Very soft and milky coffee - \nfor those who like it sweeter.\n' \
+                           'Recipe: 2 tsp coffee, 20 ml milk, 4 tsp sugar'
 
 
 class Capuccino(Drink):
     def __init__(self, coffee, milk, sugar, water):
         super().__init__(coffee, milk, sugar, water)
-        self.__name__ = 'Капучино'
-        self.description = 'Конёк бариста.\nВозьми два, чтобы порадовать его.\n' \
-                           'Рецепт: 2 ч.л. кофе, 10 мл молока, 2 ч.л. сахара'
+        self.__name__ = 'Capuccino'
+        self.description = "The barista's favorite.\nTake two to please him.\n" \
+                           "Recipe: 2 tsp coffee, 10 ml milk, 2 tsp sugar"
 
 
 class Espresso(Drink):
     def __init__(self, coffee, milk, sugar, water):
         super().__init__(coffee, milk, sugar, water)
-        self.__name__ = 'Эспрессо'
-        self.description = 'Для гурманов.\nРаскроет весь вкусовой букет зерна.\nРецепт: 2 ч.л. кофе, 25 мл воды'
+        self.__name__ = 'Espresso'
+        self.description = 'For gourmets.\nReveal the entire flavor bouquet of grain.\nRecipe: 2 tsp. coffee, 25 ml water'
 
 
 class MLDrink(Drink):
     def __init__(self, coffee, milk, sugar, water):
         super().__init__(coffee, milk, sugar, water)
-        self.__name__ = 'СУПЕРБОДРЯЩИЙ'
-        self.description = 'Новинка!\nБез него ты не станешь профи.\nРецепт: 4 ч.л. кофе, 4 ч.л. сахара, 25 мл воды'
+        self.__name__ = 'SUPERENERGIZING'
+        self.description = "New!\nYou won't be a pro without it.\nRecipe: 4 tsp. coffee, 4 tsp sugar, 25 ml water"
 
 
 class CoffeeMachine:
@@ -107,7 +107,7 @@ class CoffeeMachine:
 
     def __init__(self, sugar=100, coffee=100, water=10000, milk=1000, cups=50):
         """
-        При инициализации кофе-автомата, указывается максимальная вместимость ингредиентов, т.е. их полный запас.
+        When initializing the coffee machine, the maximum capacity of the ingredients is indicated, i.e. their full supply.
         """
         self.coffee = coffee
         self.milk = milk
@@ -137,10 +137,10 @@ class CoffeeMachine:
 
     def sleeper(self, sec=0.03):
         """
-        Имитирует работу аналоговой кофе-машины.
+        Simulates the operation of an analog coffee machine.
         """
-        variations = ("Думаю", "Вычисляю", "Соображаю", "Пытаюсь не сломаться", "Взламываю базу", "Копирую данные",
-                      "Извлекаю корень", "Трещу по швам")
+        variations = ("Thinking", "Calculating", "Think out", "Trying not to break", "Hacking the database", "Copying data",
+                       "I extract the root", "I burst at the seams")
         print(choice(variations), end='')
         for dot in '..........':
             print(dot, end='')
@@ -149,13 +149,13 @@ class CoffeeMachine:
 
     def get_drinks(self):
         """
-        Возвращает кортеж из текущих напитков (не текущих из кофе-машины, а присутствующих в ней). 
+        Returns a tuple of the current drinks.
         """
         return self.americano, self.espresso, self.capuccino, self.latte, self.ml_drink
 
     def __reset_machine(self, alls=False, coffee=0, milk=0, sugar=0, water=0, cups=0):
         """
-        Инструмент администратора, обновляет ассортимент до дефолтных цифр. Заложена возможность точечного обновления. 
+        Admin tool, updates assortment to default numbers. The possibility of a point update is laid.
         """
         if alls:
             coffee, milk, sugar, water, cups = (100, 1000, 100, 10000, 50)
@@ -167,7 +167,7 @@ class CoffeeMachine:
 
     def visualize_possibilities(self):
         """
-        Выдаёт список из доступных напитков.
+        Returns a list of available drinks.
         """
         what_we_have = (self.coffee, self.milk, self.sugar, self.water)
         res = []
@@ -179,18 +179,18 @@ class CoffeeMachine:
 
     def max_possible_one_drink(self, drink):
         """
-        Сколько единиц конкретного напитка мы можем сделать, исходя из текущих запасов.
+        How many units of a particular drink can we make based on current stock.
         """
         what_we_have = (self.coffee, self.milk, self.sugar, self.water)
         return max(list(map(lambda x: x[0] // x[1] if x[1] != 0 else 1, zip(what_we_have, drink.what_needs_to_make_drink()))))
 
     def display_menu(self):
         """
-        Стартовое меню пользователя. Появляется на экране один раз. 
+        User start menu. Appears on the screen once.
         """
-        print("Добрый день! Перед вами - меню нашей кофе-машины.")
+        print("Good afternoon! Here is the menu of our coffee machine.")
         current_possibilities = self.visualize_possibilities()
-        print(f'Выберите напиток.\nЕсть {self.cups} шт. стаканчиков, и следующие напитки:')
+        print(f'Choose a drink.\nThere is {self.cups} pcs of cups, and the following drinks:')
         for drink in self.get_drinks():
             if str(drink) in current_possibilities:
                 self.sleeper()
@@ -198,18 +198,18 @@ class CoffeeMachine:
 
     def user_choise(self):
         """
-        Функция содержит логику выбора напитка. 
+        The function contains the drink selection logic. 
         """
         lst = self.visualize_possibilities()
         if len(lst) == 0:
-            print('К сожалению, ингредиенты для напитков закончились, обратитесь к специалисту техобслуживания ;(')
-            return 'Отмена'
+            print('We're sorry, we're out of beverage ingredients, please contact a service technician. ;(')
+            return 'Cancel'
         menu = '; '.join([item + ' - ' + str(lst.index(item) + 1) for item in lst])
         ch = num = -1
         while not -1 < ch <= len(lst):
-            ch = int(input('Введите число для выбора напитка (Введите 0 для отмены) : ' + menu + ' --> '))
+            ch = int(input('Enter a number to select a drink (Enter 0 to cancel) : ' + menu + ' --> '))
             if ch == 0:
-                return 'Отмена'
+                return 'Cancel'
         self.sleeper()
         for drink in self.get_drinks():
             if str(drink) == lst[ch - 1]:
@@ -217,14 +217,14 @@ class CoffeeMachine:
                 break
         max_possible_this_drink = min(self.max_possible_one_drink(ch), self.cups)
         while not -1 < num <= max_possible_this_drink:
-            num = int(input(f'Доступно: {max_possible_this_drink} штук. Сколько готовим? (Введите 0 для отмены) '))
+            num = int(input(f'Available: {max_possible_this_drink} pcs. How much do we cook? (Enter 0 to cancel) '))
             if num == 0:
-                return 'Отмена'
+                return 'Cancel'
         return ch, num
 
     def cook(self, drink, num):
         """
-        "Приготовить" напиток означает уменьшить текущие запасы продуктов. 
+        To "brew" a drink means to reduce the current stock of food.
         """
         needs = drink.what_needs_to_make_drink(num)
         self.coffee -= needs[0]
@@ -235,43 +235,43 @@ class CoffeeMachine:
 
     def initialize_user_interface(self):
         """
-        Управляет пользовательским интерфейсом.
+        Manages the user interface.
         """
         self.display_menu()
         while True:
             choose = self.user_choise()
-            if choose == 'Отмена':
-                turn_off = input('Вы уверены, что хотите завершить обслуживание? Y/N --> ')
+            if choose == 'Cancel':
+                turn_off = input('Are you sure you want to end the service? Y/N --> ')
                 if turn_off == 'Y':
-                    print('Были рады вам помочь!')
+                    print('We were happy to help you!')
                     break
                 else:
-                    print('Попробуем выбрать снова!')
+                    print("Let's try again!")
                     continue
             drink, num = choose
             self.cook(drink, num)
             self.sleeper(0.09)
-            print(f'Вы можете забрать {num} шт. {str(drink).lower()}.')
+            print(f'You can pick up {num} psc {str(drink).lower()}.')
 
     def initialize_specialist_interface(self):
         """
-        Управляет интерфейсом обслуживающего персонала. 
+        Controls the service personnel interface.
         """
-        print('Добро пожаловать в управление кофе-машиной!')
-        password, counter = input(f'Введите "{self.__password}" для доступа к управлению кофе-машиной: '), 3
+        print('Welcome to the coffee machine control menu!')
+        password, counter = input(f'Enter the "{self.__password}" to access the control of the coffee machine: '), 3
         while password != self.password and counter != 0:
-            password = input(f'Осталось попыток: {counter}.\nВведите "{self.__password}": ')
+            password = input(f'Remaining tries: {counter}.\nEnter "{self.__password}": ')
             counter -= 1
         if password != self.__password:
-            print('Система заблокирована на 30 секунд. Попробуйте позже.')
+            print('The system is locked for 30 seconds. Try later.')
             sleep(0.5)
             return
-        print('Вход подтверждён.')
+        print('Login confirmed.')
         while True:
-            choise = int(input("Что вы хотите сделать?\nВыйти из интерфейса: 0\nПополнить все запасы: 1\n"
-                               "Сменить пароль администратора: 2\n"))
+            choise = int(input("What do you want to do?\nExit interface: 0\nReplenish all supplies: 1\n"
+                                "Change administrator password: 2\n"))
             if choise == 0:
-                last = input('Вы хотите инициализировать пользовательский интерфейс? Y/N --> ')
+                last = input('Do you want to initialize the user interface? Y/N --> ')
                 if last == 'Y':
                     self.initialize_user_interface()
                     break
@@ -279,10 +279,10 @@ class CoffeeMachine:
                     break
             elif choise == 1:
                 self.__reset_machine(alls=True)
-                print('Запасы успешно пополнены.')
+                print('Stocks successfully replenished.')
             elif choise == 2:
-                self.password = input('Введите новый пароль: ')
-                print('Пароль успешно зарегистрирован в системе.')
+                self.password = input('Enter a new password: ')
+                print('Password successfully registered in the system.')
 
 
 machine = CoffeeMachine()
