@@ -1,5 +1,5 @@
 """
-The task of this test task was to delve into someone else's (already written) code, 
+The task of this interview-test-question was to delve into someone else's (already written) code, 
 write the function get_score and also test suite for it.
 """
 
