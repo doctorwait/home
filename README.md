@@ -1,4 +1,4 @@
 # home
-This is first repo for interviews i guess
+Coffee machine interface, task solution examples
 ---
 
